@@ -98,7 +98,6 @@
 <input class="textfield" type="text" id="highscore">
 </div>
 <script>
-
 var restartBtn = document.getElementById("restartBtn");
 var pauseBtn = document.getElementById("pauseBtn");
 var resumeBtn = document.getElementById("resumeBtn");
@@ -116,17 +115,13 @@ var positionX;
 var positionY;
 var isPaused=false;
 var gamePaused;
-
 window.addEventListener('load' , e  => {
-
   getSnakeCoordinates();
   getAppleCoordinates();
   getStoredScore();
   displayaddscores();
   getscore();
-
 });
-
 function getscore()
 {
 if(!localStorage.currscore)
@@ -139,14 +134,12 @@ else
 scores = JSON.parse(localStorage.getItem('currscore'));
 }
 }
-
 pauseBtn.addEventListener("click",function(event)
 {
-    context.fillStyle = 'red'; 
-  context.font = " Arial";
+    context.fillStyle = 'orange'; 
+  context.font = "70px Arial";
   context.textAlign = "center";
   context.fillText("Game Paused" , canvas.width/2, canvas.height/2);
-
 setSnakeCoordinates();
 setAppleCoordinates();
 //setScore();
@@ -154,7 +147,6 @@ console.log(currscore);
 displayaddscores();
 isPaused=true;
 });
-
 function ResumeandPause()
 {
   if(isPaused==true)
@@ -171,7 +163,6 @@ function ResumeandPause()
   context.font = "70px Arial";
   context.textAlign = "center";
   context.fillText("Game Paused" , canvas.width/2, canvas.height/2);
-
    setSnakeCoordinates();
   setAppleCoordinates();
   //setScore();
@@ -188,12 +179,10 @@ scores = JSON.parse(localStorage.getItem('currscore'));
 console.log("scores resume"+scores);
 isPaused=false;
 });
-
 function setScore()
 {
   localStorage.currscore = JSON.stringify(scores);
 }
-
 function getAppleCoordinates()
 {
   if(!localStorage.apple)
@@ -209,7 +198,6 @@ function getAppleCoordinates()
     apple = JSON.parse(localStorage.getItem('apple'));
   }
 }
-
 function getSnakeCoordinates()
 {
 if(!localStorage.snake)
@@ -226,17 +214,14 @@ if(!localStorage.snake)
     snake = JSON.parse(localStorage.getItem('snake'));
   }
 }
-
 function setSnakeCoordinates()
 {
   localStorage.snake = JSON.stringify(snake);
 }
-
 function setAppleCoordinates()
 {
   localStorage.apple = JSON.stringify(apple);
 }
-
 function storeScore(scores)
 {
   if(localStorage.max<scores)
@@ -261,7 +246,6 @@ function getStoredScore()
     document.getElementById("highscore").value = localStorage.max;
   }
 }
-
 restartBtn.addEventListener("click",function()
 {
   localStorage.currscore=JSON.stringify(0);
@@ -270,8 +254,6 @@ restartBtn.addEventListener("click",function()
       localStorage.removeItem('apple');
   location.reload();
 });
-
-
 var snake = 
 {
   x : 160,
@@ -280,22 +262,19 @@ var snake =
  die : false , // to close the game
  eatApple : false , // set when eat apple , to increase the size
 };
-
 var apple = {
   x: 320,
   y: 320
 };
-
-var banana = {
-  x: 320,
-  y: 320
-};
-
-function drawbanana(x,y)
-{
- context.fillStyle = 'yellow';
-  context.fillRect(banana.x, banana.y, grid-1, grid-1);  
-}
+// var banana = {
+//   x: 320,
+//   y: 320
+// };
+// function drawbanana(x,y)
+// {
+//  context.fillStyle = 'yellow';
+//   context.fillRect(banana.x, banana.y, grid-1, grid-1);  
+// }
 // draw apple
 function drawApple()
 {
@@ -303,7 +282,6 @@ function drawApple()
   context.fillRect(apple.x, apple.y, grid-1, grid-1); 
 }
 drawApple();
-
 // draw snake
 function drawSnake()
 {
@@ -314,7 +292,6 @@ function drawSnake()
     context.fillRect(snake.cells[i].x, snake.cells[i].y, grid-1, grid-1);
 }
 drawSnake();  
-
 //Update Coordinates
 function moveSnake( dx , dy)
 {
@@ -324,19 +301,16 @@ function moveSnake( dx , dy)
   if(!snake.eatApple)snake.cells.pop();  // remove the last element
   else snake.eatApple = false ; // don't remove last element to increase the size .
 }
-
 // To check snake touched the boundary
 function checkBoundary(){
   if( snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height){
     snake.die = true ;
   }
 }
-
 // get random whole numbers in a specific range
 function getRandomInt() {
   return Math.floor(Math.random() * 25) * grid;
 }
-
 //Prevent to apple placed on snake
 function checkAppleIsOnSnake(){
    for(let i = 0 ; i < snake.cells.length ; i++){
@@ -345,15 +319,13 @@ function checkAppleIsOnSnake(){
     }
   }
 }
-
-function checkBananaIsOnSnake(){
-   for(let i = 0 ; i < snake.cells.length ; i++){
-    if( banana.x == snake.cells[i].x && banana.y == snake.cells[i].y){
-      return true ;
-    }
-  }
-}
-
+// function checkBananaIsOnSnake(){
+//    for(let i = 0 ; i < snake.cells.length ; i++){
+//     if( banana.x == snake.cells[i].x && banana.y == snake.cells[i].y){
+//       return true ;
+//     }
+//   }
+// }
 // Snake Bite to itself
 function checkSnakeBiteItself(){
   for(let i = 4 ; i < snake.cells.length ; i++){
@@ -366,8 +338,6 @@ function checkSnakeBiteItself(){
     }
   }
 }
-
-
 // Generate Apple's new coordinate
 function generateApple(){
   apple.x = getRandomInt();
@@ -376,25 +346,22 @@ function generateApple(){
     generateApple() ;
   }  
 }
-
-function generateBanana(dx,dy)
-{
-  drawbanana(dx,dy);
-  checkEatBanana();
-  if( checkBananaIsOnSnake() ){
-    generateBanana();
-  }  
-}
-
-function checkEatBanana(){
-  if(snake.x == banana.x && snake.y == banana.y){
-    snake.eatBanana = true ;
-    scores+=15;
-    addScore(scores);
-    //drawbanana();
-  }
-}
-
+// function generateBanana(dx,dy)
+// {
+//   drawbanana(dx,dy);
+//   checkEatBanana();
+//   if( checkBananaIsOnSnake() ){
+//     generateBanana();
+//   }  
+// }
+// function checkEatBanana(){
+//   if(snake.x == banana.x && snake.y == banana.y){
+//     snake.eatBanana = true ;
+//     scores+=15;
+//     addScore(scores);
+//     //drawbanana();
+//   }
+// }
 // snake's head on apple
 function checkEatApple(){
   if(snake.x == apple.x && snake.y == apple.y){
@@ -418,7 +385,6 @@ function addScore(scores)
   localStorage.currscore = JSON.stringify(scores);
   document.getElementById("score").value = scores;
 }
-
 var gameover=false;
 function gameOver(){
   gameover=true;
@@ -471,7 +437,6 @@ document.addEventListener('keydown', function(e)
   }
   draw();
 });
-
 function draw()
 {
   if(isPaused==false)
@@ -505,26 +470,24 @@ function draw()
   drawApple();
  }
 }
-function bonuses()
-{
-  checkBoundary();
-  banana.x = getRandomInt();
-  banana.y = getRandomInt();
-  var x = banana.x;
-  var y = banana.y;
-  var time=1000;
-  while(time!=0)
-  {
-    time--;
-    console.log("inside banana time is "+time);
-    generateBanana(x,y);
+// function bonuses()
+// {
+//   checkBoundary();
+//   banana.x = getRandomInt();
+//   banana.y = getRandomInt();
+//   var x = banana.x;
+//   var y = banana.y;
+//   var time=1000;
+//   while(time!=0)
+//   {
+//     time--;
+//     console.log("inside banana time is "+time);
+//     generateBanana(x,y);
     
-  }
-}
-
+//   }
+// }
 let game = setInterval(draw,100);
-let bonus = setInterval(bonuses,10000);
-
+//let bonus = setInterval(bonuses,10000);
 </script>
 </body>
 </html>
